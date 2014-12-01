@@ -1,14 +1,13 @@
 package com.unkur.affnetui.dao.impl;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Collection;
 import java.util.List;
 
+import org.hibernate.Query;
+import org.hibernate.Session;
+
+import com.unkur.affnetui.config.HibernateUtil;
 import com.unkur.affnetui.dao.ClickDao;
-import com.unkur.affnetui.dao.Extractor;
 import com.unkur.affnetui.dao.exceptions.DbAccessException;
 import com.unkur.affnetui.dao.exceptions.NoSuchEntityException;
 import com.unkur.affnetui.dao.exceptions.UniqueConstraintViolationException;
@@ -16,6 +15,14 @@ import com.unkur.affnetui.entity.Click;
 
 public class ClickDaoImpl implements ClickDao {
 
+	public long getNumberForPeriod(long from, long to, int shopId) {
+		long result = 0;
+		Session s = HibernateUtil.getCurrentSession();
+		Query q = s.createQuery("SELECT count(*) FROM Click c WHERE c.clickTime > " + from + " AND c.clickTime < " + to + " AND c.shopId = " + shopId);
+		result = (Long) q.uniqueResult();
+		return result;
+	}
+	
 	@Override
 	public long insertOne(Click entity) throws DbAccessException,
 			UniqueConstraintViolationException {

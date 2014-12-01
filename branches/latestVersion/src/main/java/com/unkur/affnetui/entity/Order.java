@@ -40,6 +40,9 @@ public class Order {
 		
 		@Column(name = "updated_at")
 		private long updated_at = 0;
+		
+		@Column(name = "shop_id")
+		private int shop_id = 0;
 
 		public Order() {}
 
@@ -129,6 +132,16 @@ public class Order {
 
 		public void setUpdated_at(long updated_at) {
 			this.updated_at = updated_at;
+		}
+		
+		
+
+		public int getShop_id() {
+			return shop_id;
+		}
+
+		public void setShop_id(int shopId) {
+			this.shop_id = shopId;
 		}
 
 		@Override

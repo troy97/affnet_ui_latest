@@ -23,7 +23,7 @@ License: You must have a valid license purchased only from themeforest(the above
 <!-- BEGIN HEAD -->
 <head>
 <meta charset="utf-8"/>
-<title>i-Butler AffiliNet</title>
+<title>I-Butler.Net - Statistics - Overview</title>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="" name="description"/>
@@ -262,7 +262,7 @@ License: You must have a valid license purchased only from themeforest(the above
 										<tr>
 												<%-- conver long ${file.uploadTime} to date ${dateValue} --%>
 												<jsp:useBean id="dateValue" class="java.util.Date"/>
-												<jsp:setProperty name="dateValue" property="time" value="${order.created_at+172900000}"/>
+												<jsp:setProperty name="dateValue" property="time" value="${order.created_at}"/>
 											<td><fmt:formatDate value="${dateValue}" pattern="MM/dd/yyyy HH:mm"/></td>
 											<td>${order.status}</td>
 											<td>${order.title}</td>
@@ -285,7 +285,7 @@ License: You must have a valid license purchased only from themeforest(the above
 						</div>
 						<div class="portlet-body">
 							<div class="half-block">
-								<h4><fmt:message key="dash.ordersTotal" /> 312)</h4>
+								<h4><fmt:message key="dash.ordersTotal" /></h4>
 								<div id="pie_chart_111" class="chart"></div>
 							</div>
 							<div class="half-block">
@@ -300,7 +300,7 @@ License: You must have a valid license purchased only from themeforest(the above
 						</div>
 						<div class="portlet-body">
 							<div class="half-block">
-								<h4><fmt:message key="dash.ordersTotal" /> 278)</h4>
+								<h4><fmt:message key="dash.ordersTotal" /></h4>
 								<div id="pie_chart_333" class="chart"></div>
 							</div>
 							<div class="half-block">
@@ -591,7 +591,8 @@ jQuery(document).ready(function() {
 			});
 		   
 		   /*  document.getElementById('pie_chart_222').getChild('.legend').getChild('.pieLabel').text('lol') ; */
-		   /*  $('.pieLabel').text('lol'); */
+		  /*    $('#pie_chart_222 #pieLabel0').text('<fmt:message key="dash.orders" />');
+		     $('#pie_chart_222 #pieLabel1').text('<fmt:message key="dash.clicks" />'); */
 	   }
 	   
    });

@@ -18,11 +18,11 @@ public class ShopSource {
 	@Column(name = "id")
 	private int id = 0;
 	
-	@Column(name = "shop_id")
+	@Column(name = "shop_id", unique=true )
 	private int shop_id = 0;
 	
-	@Column(name = "file_format")
-	private String file_format = null;
+	@ManyToOne
+	private SupportedFileFormat file_format = null;
 	
 	@Column(name = "download_url")
 	private String download_url = null;
@@ -47,7 +47,7 @@ public class ShopSource {
 	public ShopSource() {}
 
 
-	public ShopSource(int shop_id, String file_format, String download_url,
+	public ShopSource(int shop_id, SupportedFileFormat file_format, String download_url,
 			boolean basic_http_auth_required, String basic_http_auth_username,
 			String basic_http_auth_password, boolean is_active, long last_queried_at) {
 		this.shop_id = shop_id;
@@ -81,12 +81,12 @@ public class ShopSource {
 	}
 
 
-	public String getFile_format() {
+	public SupportedFileFormat getFile_format() {
 		return file_format;
 	}
 
 
-	public void setFile_format(String file_format) {
+	public void setFile_format(SupportedFileFormat file_format) {
 		this.file_format = file_format;
 	}
 

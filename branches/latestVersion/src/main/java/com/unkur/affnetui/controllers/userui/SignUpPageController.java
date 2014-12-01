@@ -1,6 +1,9 @@
 package com.unkur.affnetui.controllers.userui;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,11 +12,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
+import com.google.common.base.Throwables;
 import com.unkur.affnetui.config.AppConfig;
 import com.unkur.affnetui.config.Config;
+import com.unkur.affnetui.config.HibernateUtil;
 import com.unkur.affnetui.config.Links;
 import com.unkur.affnetui.config.Urls;
+import com.unkur.affnetui.controllers.StatusEndpoint;
+import com.unkur.affnetui.entity.Language;
+import com.unkur.affnetui.entity.SupportedFileFormat;
 
 /**
  * Servlet implementation class SignUpPageController
@@ -48,6 +58,24 @@ public class SignUpPageController extends HttpServlet {
 		request.setAttribute("lastName", Links.LAST_NAME_PARAM_NAME);
 		request.setAttribute("shopName", Links.SHOP_NAME_PARAM_NAME);
 		request.setAttribute("shopUrl", Links.SHOP_URL_PARAM_NAME);
+		request.setAttribute("languageParamName", Links.LANGUAGE_PARAM_NAME);
+		
+		Session session = HibernateUtil.getCurrentSession();
+		Transaction tx = session.beginTransaction();
+		try{
+			//List<String> languageList = new ArrayList<>(Arrays.asList("en", "ru"));
+			List<Language> languageList = session.createQuery("FROM Language").list();
+			request.setAttribute("languageList", languageList);
+			
+			List<SupportedFileFormat> formatList = session.createQuery("FROM SupportedFileFormat").list();
+			request.setAttribute("formatList", formatList);
+			tx.commit();
+		} catch (Exception e) {
+			tx.rollback();
+			StatusEndpoint.incrementErrors();
+			logger.error(Throwables.getStackTraceAsString(e));
+			response.sendRedirect(Urls.ERROR_PAGE_URL);
+		}
 		
 		request.setAttribute("language", request.getParameter(Links.LANGUAGE_PARAM_NAME) == null ? "en" : request.getParameter(Links.LANGUAGE_PARAM_NAME));
 		request.setAttribute("bundleBasename", Config.BUNDLE_BASENAME);

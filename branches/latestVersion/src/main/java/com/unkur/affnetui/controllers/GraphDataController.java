@@ -9,9 +9,17 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import org.hibernate.Transaction;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+
+import com.unkur.affnetui.config.HibernateUtil;
+import com.unkur.affnetui.config.Links;
+import com.unkur.affnetui.dao.impl.ClickDaoImpl;
+import com.unkur.affnetui.dao.impl.OrderDaoImpl;
+import com.unkur.affnetui.entity.User;
 
 
 /**
@@ -33,31 +41,40 @@ public class GraphDataController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("graphData");
+		
+		HttpSession httpSession = request.getSession();
+		User user = (User) httpSession.getAttribute(Links.SESSION_USER_ATTR_NAME);
+		int shopId = user.getShopId();
+		
+		long now = System.currentTimeMillis();
 		long day = TimeUnit.DAYS.toMillis(1);
-		long today = System.currentTimeMillis();
+		long week = TimeUnit.DAYS.toMillis(7);
 		
+		Transaction tx = HibernateUtil.getCurrentSession().beginTransaction();
+		
+		ClickDaoImpl dao = new ClickDaoImpl(); 
 		long[][] clicks = new long[][]{
-				{today, 55L},
-				{today-day, 59L},
-				{today-day*2, 67L},
-				{today-day*3, 49L},
-				{today-day*4, 52L},
-				{today-day*5, 55L},
-				{today-day*6, 34L},
+				{now, dao.getNumberForPeriod(now-day, now, shopId)},
+				{now-day, dao.getNumberForPeriod(now-day*2, now-day, shopId)},
+				{now-day*2, dao.getNumberForPeriod(now-day*3, now-day*2, shopId)},
+				{now-day*3, dao.getNumberForPeriod(now-day*4, now-day*3, shopId)},
+				{now-day*4, dao.getNumberForPeriod(now-day*5, now-day*4, shopId)},
+				{now-day*5, dao.getNumberForPeriod(now-day*6, now-day*5, shopId)},
+				{now-day*6, dao.getNumberForPeriod(now-day*7, now-day*6, shopId)},
 		};
 		
+		OrderDaoImpl orderDao = new OrderDaoImpl();
 		long[][] orders = new long[][]{
-				{today, 7L},
-				{today-day, 22L},
-				{today-day*2, 10L},
-				{today-day*3, 5L},
-				{today-day*4, 15L},
-				{today-day*5, 7L},
-				{today-day*6, 6L},
+				{now, orderDao.getNumberForPeriod(now-day, now, shopId)},
+				{now-day, orderDao.getNumberForPeriod(now-day*2, now-day, shopId)},
+				{now-day*2, orderDao.getNumberForPeriod(now-day*3, now-day*2, shopId)},
+				{now-day*3, orderDao.getNumberForPeriod(now-day*4, now-day*3, shopId)},
+				{now-day*4, orderDao.getNumberForPeriod(now-day*5, now-day*4, shopId)},
+				{now-day*5, orderDao.getNumberForPeriod(now-day*6, now-day*5, shopId)},
+				{now-day*6, orderDao.getNumberForPeriod(now-day*7, now-day*6, shopId)},
 		};
 		
-		
+		tx.commit();
 
 		
 		JSONObject json = new JSONObject();

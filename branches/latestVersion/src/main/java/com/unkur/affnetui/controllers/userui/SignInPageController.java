@@ -49,7 +49,7 @@ public class SignInPageController extends HttpServlet {
 		request.setAttribute("signUpPage", Urls.SIGNUP_PAGE_URL);
 		
 		request.setAttribute("language", request.getParameter(Links.LANGUAGE_PARAM_NAME) == null ? "en" : request.getParameter(Links.LANGUAGE_PARAM_NAME));
-		request.setAttribute("bundleBasename", Config.BUNDLE_BASENAME);
+		//request.setAttribute("bundleBasename", Config.BUNDLE_BASENAME);
 		
 		request.getRequestDispatcher(Links.SIGNIN_PAGE_JSP).forward(request, response);
 	}

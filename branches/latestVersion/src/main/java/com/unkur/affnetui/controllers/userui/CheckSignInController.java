@@ -67,8 +67,7 @@ public class CheckSignInController extends HttpServlet {
 			String hql = "FROM User U WHERE U.email=\'" +email+ "\' AND"
 					+ " U.encryptedPassword=\'"+Encrypter.encrypt(pass)+"\'";
 			Query query = hs.createQuery(hql);
-			List<User> results = query.list();
-			freshUser = results.get(0);
+			freshUser = (User) query.uniqueResult();
 		} catch (IndexOutOfBoundsException e) {
 			logger.info("Bad sign in attempt, entered credentials: email=\"" + email
 					+ "\", pass=\"" + pass + "\"");
@@ -88,10 +87,9 @@ public class CheckSignInController extends HttpServlet {
 		HttpSession session = (HttpSession) request.getSession(true);
 		session.setAttribute(Links.SESSION_USER_ATTR_NAME, freshUser);
 		
-		String language = request.getParameter(Links.LANGUAGE_PARAM_NAME) == null ? "en" : request.getParameter(Links.LANGUAGE_PARAM_NAME);
+		String language = freshUser.getLanguage().getCode();
 		session.setAttribute("language", language);
-		//request.setAttribute("language", request.getParameter(Links.LANGUAGE_PARAM_NAME) == null ? "en" : request.getParameter(Links.LANGUAGE_PARAM_NAME));
-		session.setAttribute("bundleBasename", Config.BUNDLE_BASENAME);
+		session.setAttribute("name", freshUser.getFirstName());
 
 		//redirect to upload page
 		logger.debug("Successfull sign in of \"" + email + "\"");

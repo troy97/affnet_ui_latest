@@ -42,11 +42,12 @@ public class Links {
 	public static final String SHOP_NAME_PARAM_NAME = "shopName";
 	public static final String SHOP_URL_PARAM_NAME = "shopUrl";
 	
-	public static final String SHOP_RESOURCE_FILE_FORMAT_PARAM_NAME = "resourceFileFormat";
-	public static final String SHOP_RESOURCE_DOWNLOAD_URL_PARAM_NAME = "resourceDownloadUrl";
+	public static final String SHOP_RESOURCE_AVAILABLE_PARAM_NAME = "resourceAvailable";
+	public static final String SHOP_RESOURCE_FILE_FORMAT_PARAM_NAME = "fileFormat";
+	public static final String SHOP_RESOURCE_URL_PARAM_NAME = "resourceUrl";
 	public static final String SHOP_RESOURCE_AUTH_REQUIRED_PARAM_NAME = "resourceAuthRequired";
-	public static final String SHOP_RESOURCE_AUTH_USERNAME_PARAM_NAME = "resourceAuthUsername";
-	public static final String SHOP_RESOURCE_AUTH_PASSWORD_PARAM_NAME = "resourceAuthPassword";
+	public static final String SHOP_RESOURCE_AUTH_USERNAME_PARAM_NAME = "basicAuthUsername";
+	public static final String SHOP_RESOURCE_AUTH_PASSWORD_PARAM_NAME = "basicAuthPassword";
 	
 		//params that indicate errors
 	public static final String ERROR_PARAM_NAME = "wrong";

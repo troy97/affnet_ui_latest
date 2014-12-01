@@ -52,7 +52,6 @@ public class RequestCountingFilter implements Filter {
 	 * @see Filter#init(FilterConfig)
 	 */
 	public void init(FilterConfig fConfig) throws ServletException {
-		StatusEndpoint.init(System.currentTimeMillis());
 	}
 
 }

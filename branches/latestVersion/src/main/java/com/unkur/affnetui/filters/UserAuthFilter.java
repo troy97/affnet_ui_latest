@@ -56,7 +56,12 @@ public class UserAuthFilter implements Filter {
 			return;
 		}
 		User user = (User) obj;
-		//OK, there's admin already logged in, continue
+		//OK, there's user already logged in, continue
+		//if there's a language parameter, update it in session
+		String language = request.getParameter(Links.LANGUAGE_PARAM_NAME);
+		if(language != null) {
+			session.setAttribute("language", language);
+		}
 		chain.doFilter(request, response);
 	}
 

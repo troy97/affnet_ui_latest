@@ -1,5 +1,8 @@
 package com.unkur.affnetui.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.*;
 
 @Entity
@@ -17,6 +20,9 @@ public class Shop {
 	@Column(name = "url")
 	private String url = null;
 	
+	@OneToMany
+	List<Notification> notifications = null;
+	
 	public Shop(){}
 	
 	/**
@@ -27,16 +33,11 @@ public class Shop {
 	public Shop(String name, String url) {
 		this.name = name;
 		this.url = url;
+		this.notifications = new ArrayList<Notification>();
 	}
 	
-	/**
-	 * Constructor only used by DAO
-	 * @param dbId assigned by DBMS
-	 * @param name
-	 */
-	public Shop(int dbId, String name, String url) {
-		this(name, url);
-		this.id = dbId;
+	public void addNotification(Notification n) {
+		this.notifications.add(n);
 	}
 
 	public int getId() {
@@ -70,6 +71,14 @@ public class Shop {
 	@Override
 	public String toString() {
 		return this.name;
+	}
+
+	public List<Notification> getNotifications() {
+		return notifications;
+	}
+
+	public void setNotifications(List<Notification> notifications) {
+		this.notifications = notifications;
 	}
 	
 	
