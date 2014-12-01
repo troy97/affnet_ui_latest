@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
+import org.hibernate.Query;
+import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import com.google.common.base.Throwables;
@@ -19,7 +21,10 @@ import com.unkur.affnetui.config.Urls;
 import com.unkur.affnetui.controllers.StatusEndpoint;
 import com.unkur.affnetui.dao.impl.ShopDaoImpl;
 import com.unkur.affnetui.dao.impl.UserDaoImpl;
+import com.unkur.affnetui.entity.Language;
 import com.unkur.affnetui.entity.Shop;
+import com.unkur.affnetui.entity.ShopSource;
+import com.unkur.affnetui.entity.SupportedFileFormat;
 import com.unkur.affnetui.entity.User;
 
 /**
@@ -49,12 +54,32 @@ public class CheckUpdateProfileController extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.err.println("START");
 		//get session and user object (this request has passed Auth filter)
-		HttpSession session = (HttpSession) request.getSession();
-		User oldUser = (User) session.getAttribute(Links.SESSION_USER_ATTR_NAME);
+		HttpSession httpSession = (HttpSession) request.getSession();
+		User oldUser = (User) httpSession.getAttribute(Links.SESSION_USER_ATTR_NAME);
 		
-		Transaction Tx = HibernateUtil.getCurrentSession().beginTransaction();
+		if( !validateParameters(request) ) {
+			response.sendRedirect(Urls.UPDATE_USER_PROFILE_PAGE_URL + Links.createQueryString(Links.ERROR_PARAM_NAME));
+			return;
+		}
+		
+		boolean resourceAvailable = false;
+		String resourceAvailableStr = request.getParameter(Links.SHOP_RESOURCE_AVAILABLE_PARAM_NAME);
+		if(resourceAvailableStr != null && resourceAvailableStr.equals("ON")) {
+			resourceAvailable = true;
+		}
+		String resourceFileFormat = request.getParameter(Links.SHOP_RESOURCE_FILE_FORMAT_PARAM_NAME);
+		String resourceDownloadUrl = request.getParameter(Links.SHOP_RESOURCE_URL_PARAM_NAME);
+		boolean resourceAuthRequired = false;
+		String resourceAuthRequiredStr = request.getParameter(Links.SHOP_RESOURCE_AUTH_REQUIRED_PARAM_NAME);
+		if(resourceAuthRequiredStr != null && resourceAuthRequiredStr.equals("ON")) {
+			resourceAuthRequired = true;
+		}
+		String resourceAuthUsername = request.getParameter(Links.SHOP_RESOURCE_AUTH_USERNAME_PARAM_NAME);
+		String resourceAuthPassword = request.getParameter(Links.SHOP_RESOURCE_AUTH_PASSWORD_PARAM_NAME);
+		
+		Session s = HibernateUtil.getCurrentSession();
+		Transaction Tx = s.beginTransaction();
 		String redirectIfDuplicateUrl = Urls.UPDATE_USER_PROFILE_PAGE_URL + Links.createQueryString(Links.ERROR_PARAM_NAME);
 		User freshUser;
 		Shop freshShop;
@@ -78,7 +103,33 @@ public class CheckUpdateProfileController extends HttpServlet {
 			freshUser.setPassword(request.getParameter(Links.PASSWORD_PARAM_NAME));
 			freshUser.setFirstName(request.getParameter(Links.FIRST_NAME_PARAM_NAME));
 			freshUser.setLastName(request.getParameter(Links.LAST_NAME_PARAM_NAME));
-		
+			
+			Query q = s.createQuery("FROM Language l WHERE l.code = ?");
+			q.setString(0, request.getParameter(Links.LANGUAGE_PARAM_NAME));
+			Language l = (Language) q.uniqueResult();
+			
+			freshUser.setLanguage(l);
+			
+			if(resourceAvailable) {
+				SupportedFileFormat fileFormat = (SupportedFileFormat) s.createQuery("FROM SupportedFileFormat s WHERE s.extension = \'" + resourceFileFormat + "\'").uniqueResult();
+				ShopSource source = (ShopSource) s.createQuery("FROM ShopSource s WHERE s.shop_id = " + freshShop.getId()).uniqueResult();
+				if(source == null) {
+					source = new ShopSource();
+				}
+				source.setShop_id(freshShop.getId());
+				source.setFile_format(fileFormat);
+				source.setDownload_url(resourceDownloadUrl);
+				source.setBasic_http_auth_required(resourceAuthRequired);
+				source.setBasic_http_auth_username(resourceAuthUsername);
+				source.setBasic_http_auth_password(resourceAuthPassword);
+				source.setIs_active(true);
+				source.setLast_queried_at(0);
+				
+				s.saveOrUpdate(source);
+			}
+			
+			ShopSource source = (ShopSource) s.createQuery("FROM ShopSource s WHERE s.shop_id = " + freshShop.getId()).uniqueResult();
+			request.setAttribute("sourceObject", source);
 		
 			try {
 				new ShopDaoImpl().updateShop(freshShop);
@@ -95,9 +146,10 @@ public class CheckUpdateProfileController extends HttpServlet {
 			}
 			
 			//register OK, update user in session attributes
-			session.removeAttribute(Links.SESSION_USER_ATTR_NAME);
-			session.setAttribute(Links.SESSION_USER_ATTR_NAME, freshUser); // update user in session
+			httpSession.removeAttribute(Links.SESSION_USER_ATTR_NAME);
+			httpSession.setAttribute(Links.SESSION_USER_ATTR_NAME, freshUser); // update user in session
 			Tx.commit();
+			logger.info("Profile updated successfully for user email=\"" + freshUser.getEmail() + "\"");
 		} catch (Exception e) {
 			logger.debug("Profile update failure: " + Throwables.getStackTraceAsString(e));
 			Tx.rollback();
@@ -105,7 +157,6 @@ public class CheckUpdateProfileController extends HttpServlet {
 			return;
 		} 
 		
-		logger.info("Profile updated successfully for user email=\"" + freshUser.getEmail() + "\"");
 
 		//create OK page
 		request.setAttribute("userObject", freshUser);
@@ -113,6 +164,33 @@ public class CheckUpdateProfileController extends HttpServlet {
 		
 		request.getRequestDispatcher(Links.UPDATE_PROFILE_SUCCESS_JSP).forward(request, response);
 		
+	}
+	
+	private boolean validateParameters(HttpServletRequest request) {
+		
+		String resourceAvailable = request.getParameter(Links.SHOP_RESOURCE_AVAILABLE_PARAM_NAME);
+		String resourceFileFormat = request.getParameter(Links.SHOP_RESOURCE_FILE_FORMAT_PARAM_NAME);
+		String resourceDownloadUrl = request.getParameter(Links.SHOP_RESOURCE_URL_PARAM_NAME);
+		String resourceAuthRequired = request.getParameter(Links.SHOP_RESOURCE_AUTH_REQUIRED_PARAM_NAME);
+		String resourceAuthUsername = request.getParameter(Links.SHOP_RESOURCE_AUTH_USERNAME_PARAM_NAME);
+		String resourceAuthPassword = request.getParameter(Links.SHOP_RESOURCE_AUTH_PASSWORD_PARAM_NAME);
+		
+		if(resourceAvailable != null && resourceAvailable.equals("ON")) {
+			if(resourceDownloadUrl == null || resourceFileFormat == null || 
+					resourceDownloadUrl.isEmpty() || resourceFileFormat.isEmpty()) {
+				return false;
+			}
+			
+			
+			if(resourceAuthRequired != null && resourceAuthRequired.equals("ON")) {
+				if(resourceAuthUsername == null || resourceAuthPassword == null ||
+						resourceAuthUsername.isEmpty() || resourceAuthPassword.isEmpty()) {
+					return false;
+				}
+			}
+		}
+		
+		return true;
 	}
 	
 }

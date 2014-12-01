@@ -33,8 +33,8 @@ public class User {
 	@Column(name = "shop_id")
 	private int shopId = 0;
 	
-	@Column(name = "language")
-	private String language = "en"; 
+	@ManyToOne
+	private Language language = null; 
 	
 	public User(){};
 	
@@ -46,7 +46,7 @@ public class User {
 	 * @param lastName
 	 * @param shopId
 	 */
-	public User(String email, String plainPassword, String firstName, String lastName, int shopId, String lang) {
+	public User(String email, String plainPassword, String firstName, String lastName, int shopId, Language lang) {
 		this.email = email;
 		this.encryptedPassword = Encrypter.encrypt(plainPassword);
 		this.firstName = firstName;
@@ -167,12 +167,14 @@ public class User {
 	}
 	
 	
-	public String getLanguage() {
+	public Language getLanguage() {
 		return language;
 	}
 	
-	public void setLanguage(String language) {
-		this.language = language;
+	public void setLanguage(Language language) {
+		if(language != null) {
+			this.language = language;
+		}
 	}
 	
 	@Override

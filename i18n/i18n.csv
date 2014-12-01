@@ -25,6 +25,13 @@ signUp.firstNamePlaceholder,First Name,Моё имя
 signUp.lastName,Last name,Фамилия
 signUp.lastNamePlaceholder,Last Name,Моя фамилия
 signUp.buttonText,Sign Up,Подтвердить
+signUp.language,Preferred language,Предпочитаемый язык
+signUp.provideResource,Provide resource for automatic price-list synchronization (if available),Добавить ресур для автообновления прайс-листа (не обязательно)
+signUp.resourceUrl,Price-list resource URL,URL ресурса
+signUp.resourceFileFormat,Resource file format,"Формат файла, предоставляемого ресурсом"
+signUp.provideAuth,Provide resource basic authentication credentials (if required),Ввести данные аутентификации ресурса (если требуется)
+signUp.resourceUsername,Resource authentication username,Логин для доступа к ресурсу
+signUp.resourcePassword,Resource authentication password,Пароль для доступа к ресурсу
 ,,
 sideBar.welcome,Welcome,Здравствуйте
 sideBar.statistics,Statistics,Статистика
@@ -67,7 +74,7 @@ dash.graphName,Clicks and orders,Клики и заказы
 dash.last10orders,Last 10 orders,Последние 10 заказов
 dash.currentMonthStat,Current month statistics,Статистика текущего месяца
 dash.previousMonthStat,Previous month statistics,Статистика предыдущего месяца
-dash.ordersTotal,Orders (total,Заказы (всего
+dash.ordersTotal,Orders,Заказы
 dash.conversion,Conversion,Конверсия
 dash.topProductsVisited,Top products visited,Самые посещаемые товары
 dash.topGrowingSales,Top growing sales,Товары с растущей популярностью
@@ -79,6 +86,8 @@ dash.rowVisitsLastDay,Visits last day,Кликов за день
 dash.rowVisitsLastWeek,Visits last week,Кликов за неделю
 dash.clicks,Clicks,Клики
 dash.orders,Orders,Заказы
+dash.confirmed,Confirmed,Подтвержденные
+dash.cancelled,Cancelled,Отмененные
 ,,
 updateProfile.header,Profile,Профиль
 updateProfile.welcome,Profile info,Персональные данные

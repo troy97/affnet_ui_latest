@@ -11,7 +11,7 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
 /**
- * Singleton class allows to read config.properties file
+ * Singleton class allows to read property file
  * and performs some operations with this properties
  * @author Anton Lukashchuk
  *
@@ -77,11 +77,6 @@ public class AppConfig {
 	 */
 	private static void init() {
 		new File(Config.UPLOAD_FOLDER).mkdir();
-/*		if(!new File(FsPaths.WEB_CONTENT_FOLDER).exists()) {
-			System.out.println("WebContent folder not found in " + FsPaths.WEB_CONTENT_FOLDER);
-			logger.error("WebContent folder not found in " + FsPaths.WEB_CONTENT_FOLDER);
-			System.exit(1);
-		}*/
 	}
 	
 	/**

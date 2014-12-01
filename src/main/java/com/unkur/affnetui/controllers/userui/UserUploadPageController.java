@@ -66,19 +66,16 @@ public class UserUploadPageController extends HttpServlet {
 		}
 		
 		request.setAttribute("fileList", files);
-		request.setAttribute("downloadPage", Urls.USER_UPLOAD_CONTROLLER_URL);
+		request.setAttribute("downloadPage", Urls.UPLOAD_SERVLET_URL);
+		
 		request.setAttribute("shopId", user.getShopId());
 		
 		String language = request.getParameter(Links.LANGUAGE_PARAM_NAME);
 		if(language != null) {
 			httpSession.setAttribute("language", language);
 		}
-		//request.setAttribute("language", request.getParameter(Links.LANGUAGE_PARAM_NAME) == null ? "en" : request.getParameter(Links.LANGUAGE_PARAM_NAME));
-		//request.setAttribute("bundleBasename", Config.BUNDLE_BASENAME);
 		
-		
-		
-		//send response to outputStrem
+		//send response to outputStream
 		request.getRequestDispatcher(Links.USER_UPLOAD_PAGE_JSP).forward(request, response);
 	}
 

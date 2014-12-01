@@ -24,7 +24,7 @@ License: You must have a valid license purchased only from themeforest(the above
 <!-- BEGIN HEAD -->
 <head>
 <meta charset="utf-8"/>
-<title>Upload</title>
+<title>I-Butler.Net - Integration - Upload products</title>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="" name="description"/>
@@ -212,6 +212,7 @@ License: You must have a valid license purchased only from themeforest(the above
 				</ul>
 			</div>
 			<!-- END PAGE HEADER-->
+			
 			<div class="row">
 				<div class="col-md-12 col-sm-12">
 					<div class="upload-block">

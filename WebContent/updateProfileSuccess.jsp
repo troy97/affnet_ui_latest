@@ -23,7 +23,7 @@ License: You must have a valid license purchased only from themeforest(the above
 <!-- BEGIN HEAD -->
 <head>
 <meta charset="utf-8"/>
-<title>Update profile</title>
+<title>I-Butler.Net - Settings - Profile updated</title>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="" name="description"/>
@@ -241,6 +241,26 @@ License: You must have a valid license purchased only from themeforest(the above
 								    <td align="center"><b><fmt:message key="updateProfileOk.lastName" />:</b></td>
 								    <td align="center">${userObject.lastName}</td>
 								  </tr>
+								  <tr>
+								    <td align="center"><b><fmt:message key="signUp.language" />:</b></td>
+								    <td align="center">${userObject.language.title}</td>
+								  </tr>
+								  
+								<c:if test="${not empty sourceObject}">
+								  <tr>
+								    <td align="center"><b><fmt:message key="signUp.resourceUrl" />:</b></td>
+								    <td align="center">${sourceObject.download_url}</td>
+								  </tr>
+								  <tr>
+								    <td align="center"><b><fmt:message key="signUp.resourceUsername" />:</b></td>
+								    <td align="center">${sourceObject.basic_http_auth_username}</td>
+								  </tr>
+								  <tr>
+								    <td align="center"><b><fmt:message key="signUp.resourcePassword" />:</b></td>
+								    <td align="center">${sourceObject.basic_http_auth_password}</td>
+								  </tr>
+								</c:if>
+								  
 								</table>
 							</div>
 						</div>

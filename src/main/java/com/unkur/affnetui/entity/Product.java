@@ -97,7 +97,7 @@ public class Product {
 	
 	@Override
 	public String toString() {
-		return "\n Product [urlPath=" + realUrl + ", name=" + name + "]";
+		return "\n Product [id=" + id + ", name=" + name + "]";
 	}
 
 	

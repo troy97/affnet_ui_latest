@@ -20,6 +20,9 @@
 	<mapping class="com.unkur.affnetui.entity.Order"></mapping>
 	<mapping class="com.unkur.affnetui.entity.Click"></mapping>
 	<mapping class="com.unkur.affnetui.entity.Product"></mapping>
+	<mapping class="com.unkur.affnetui.entity.Language"></mapping>
+	<mapping class="com.unkur.affnetui.entity.SupportedFileFormat"></mapping>
+	<mapping class="com.unkur.affnetui.entity.Notification"></mapping>
 
    </session-factory>
 </hibernate-configuration>

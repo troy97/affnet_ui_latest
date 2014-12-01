@@ -23,7 +23,7 @@ License: You must have a valid license purchased only from themeforest(the above
 <!-- BEGIN HEAD -->
 <head>
 <meta charset="utf-8"/>
-<title>Update profile</title>
+<title>I-Butler.Net - Settings - Profile info</title>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="" name="description"/>
@@ -212,6 +212,34 @@ License: You must have a valid license purchased only from themeforest(the above
 				</ul>
 			</div>
 			<!-- END PAGE HEADER-->
+			
+			
+<!-- script for activating/deactivating shop resource input fields -->	    
+<SCRIPT LANGUAGE="JavaScript">
+	function available() {
+		if (document.input.resourceAvailable.checked) {
+			document.input.resourceUrl.disabled = false;
+			document.input.fileFormat.disabled = false;
+			document.input.resourceAuthRequired.disabled = false;
+		} else {
+			document.input.resourceUrl.disabled = true;
+			document.input.fileFormat.disabled = true;
+			document.input.resourceAuthRequired.disabled = true;
+		}
+	}
+
+	function auth() {
+		if (document.input.resourceAuthRequired.checked
+				&& document.input.resourceAvailable.checked) {
+			document.input.basicAuthUsername.disabled = false;
+			document.input.basicAuthPassword.disabled = false;
+		} else {
+			document.input.basicAuthUsername.disabled = true;
+			document.input.basicAuthPassword.disabled = true;
+		}
+	}
+</SCRIPT>			
+			
 			<div class="row">
 				<div class="col-md-4 col-sm-2"></div>
 				<div class="col-md-4 col-sm-8">
@@ -220,7 +248,7 @@ License: You must have a valid license purchased only from themeforest(the above
 						<h4><fmt:message key="updateProfile.message" /></h4>
 						<font color="red">${wrongData}</font>
 						<div class="portlet-body form">
-							<form role="form" action="${checkUpdate}" method="POST">
+							<form role="form" name="input" action="${checkUpdate}" method="POST">
 								<div class="form-body">
 									<div class="form-group">
 										<label><fmt:message key="updateProfile.shopName" /></label>
@@ -258,6 +286,53 @@ License: You must have a valid license purchased only from themeforest(the above
 											<input type="text" class="form-control input-circle" placeholder="${userObject.lastName}" name="${lastName}">
 										</div>
 									</div>
+									<div class="form-group">
+										<label><fmt:message key="signUp.language" /></label>
+										 </br>
+										 <select name="${languageParamName}">
+											<c:forEach items="${languageList}" var="langOpt">
+												<option value="${langOpt.code}">${langOpt.title}</option>
+											</c:forEach>
+										</select>
+									</div>
+									
+									<!-- Shop resource information -->		
+									</br>		
+										
+									<hr>			
+									<input type="checkbox" onclick="available()" name="resourceAvailable" value="ON">  <fmt:message key="signUp.provideResource" />
+									<hr>
+									
+									<div class="form-group">
+						        				 <label for="id9"> <fmt:message key="signUp.resourceUrl" /></label>
+						       			 </br>
+										 <input type="text" class="form-control" id="id9" placeholder="URL" name="resourceUrl" disabled>
+									</div>
+									<div class="form-group">
+											<label for="id12"> <fmt:message key="signUp.resourceFileFormat" /></label> </br>
+											 <select name="fileFormat" disabled>
+												<c:forEach items="${formatList}" var="format">
+													<option value="${format.extension}">${format.name}</option>
+												</c:forEach>
+											</select>
+									</div>
+									
+									<hr>
+									<input type="checkbox" onclick="auth()" name="resourceAuthRequired" value="ON" disabled>  <fmt:message key="signUp.provideAuth" />
+									<hr>
+									<div class="form-group">
+						        				 <label for="id10"><fmt:message key="signUp.resourceUsername" /></label>
+						       			 </br>				
+											 <input type="text" class="form-control" id="id10" placeholder="Username" name="basicAuthUsername" disabled>
+									</div>
+									<div class="form-group">
+											<label for="id11"><fmt:message key="signUp.resourcePassword" /></label> 
+											<input type="text" class="form-control" id="id11" placeholder="Password" name="basicAuthPassword" disabled>
+									</div>
+						
+									<hr>
+									
+									
 									<div class="form-group">
 										<button type="submit" class="btn blue"><i class="glyphicon glyphicon-ok additional-padding"></i> <fmt:message key="updateProfile.button" /></button>
 									</div>

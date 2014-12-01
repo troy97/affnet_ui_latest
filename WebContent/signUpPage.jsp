@@ -14,7 +14,7 @@
     <meta name="author" content="Anton">
     <link rel="icon" href="favicon.ico">
 
-    <title><fmt:message key="signUp.title" /></title>
+    <title>I-Butler.Net - Sign Up/></title>
 
     <!-- Bootstrap core CSS -->
     <link href="dist/css/bootstrap.min.css" rel="stylesheet">
@@ -62,9 +62,40 @@
 		<fmt:message key="signUp.asterisksMessage" />
 	    	</br></br><font color="red">${wrongData}</font>
 	    
+<!-- script for activating/deactivating shop resource input fields -->	    
+<SCRIPT LANGUAGE="JavaScript">
+	function available() {
+		if (document.input.resourceAvailable.checked) {
+			document.input.resourceUrl.disabled = false;
+			document.input.fileFormat.disabled = false;
+			document.input.resourceAuthRequired.disabled = false;
+		} else {
+			document.input.resourceUrl.disabled = true;
+			document.input.fileFormat.disabled = true;
+			document.input.resourceAuthRequired.disabled = true;
+		}
+	}
+
+	function auth() {
+		if (document.input.resourceAuthRequired.checked
+				&& document.input.resourceAvailable.checked) {
+			document.input.basicAuthUsername.disabled = false;
+			document.input.basicAuthPassword.disabled = false;
+		} else {
+			document.input.basicAuthUsername.disabled = true;
+			document.input.basicAuthPassword.disabled = true;
+		}
+	}
+</SCRIPT>	    
+	    	
 	    	
 		<form name="input" class="form-horizontal" action="${checkSignUp}" method="POST">
 		</br>
+		
+		<!-- Shop information -->
+			<hr>
+			Shop info
+			<hr>
 			<div class="form-group">
 			<div class="col-xs-3">
 			 <label for="id1"><fmt:message key="signUp.shopName" /> <font color="red">*</font></label>
@@ -78,8 +109,12 @@
 			 <input type="text" class="form-control" id="id2" placeholder="<fmt:message key="signUp.shopUrlPlaceholder" />" name="${shopUrl}">
 			</div>
 			</div>
-			
+
+		<!-- User information -->
 			</br>
+			<hr>
+			User info
+			<hr>
 			
 			<div class="form-group">	
 			<div class="col-xs-3">
@@ -95,23 +130,82 @@
 			</div> 
 			<div class="form-group">	
 			<div class="col-xs-3">
-			 <label for="id6"><fmt:message key="signUp.firstName" /></label>
+			 <label for="id6"><fmt:message key="signUp.firstName" /> <font color="red">*</font></label>
 			 <input type="text" class="form-control" id="id6" placeholder="<fmt:message key="signUp.firstNamePlaceholder" />" name="${firstName}">
 			</div> 
 			</div> 
 			<div class="form-group">	
 			<div class="col-xs-3">
-			 <label for="id7"><fmt:message key="signUp.lastName" /></label>
+			 <label for="id7"><fmt:message key="signUp.lastName" /> <font color="red">*</font></label>
 			 <input type="text" class="form-control" id="id7" placeholder="<fmt:message key="signUp.lastNamePlaceholder" />" name="${lastName}">
 			</div> 
 			</div> 
-			<div class="form-group">	
+			<div class="form-group">
 			<div class="col-xs-3">
-			 <input type="hidden" class="form-control" id="id8" name="language" value="${language}">
-			</div> 
-			</div> 
+			<label for="id8"><fmt:message key="signUp.language" /></label> <font color="red">*</font></label>
+			</br>
+			<select name="${languageParamName}">
+				<c:forEach items="${languageList}" var="langOpt">
+					<option value="${langOpt.code}">${langOpt.title}</option>
+				</c:forEach>
+			</select>
+			</div>
+			</div>
+					
+					
+			<!-- Shop resource information -->		
+			</br>			
+			<hr>			
+			<input type="checkbox" onclick="available()" name="resourceAvailable" value="ON"> <fmt:message key="signUp.provideResource" />
+			<hr>
+			
+			<div class="form-group">
+			<div class="col-xs-3">
+<!-- 			     <input type="checkbox" onclick="var input = document.getElementById('id9');
+        				if(this.checked){ input.disabled = false; input.focus();}else{input.disabled=true;}" /> -->
+        				 <label for="id9"> <fmt:message key="signUp.resourceUrl" /></label>
+       			 </br>
+				 <input type="text" class="form-control" id="id9" placeholder="URL" name="resourceUrl" disabled>
+			</div>
+			</div>
+			<div class="form-group">
+				<div class="col-xs-3">
+					<label for="id12"> <fmt:message key="signUp.resourceFileFormat" /></label> </br>
+					 <select name="fileFormat" disabled>
+						<c:forEach items="${formatList}" var="format">
+							<option value="${format.extension}">${format.name}</option>
+						</c:forEach>
+					</select>
+				</div>
+			</div>
+			
+			<hr>
+			<input type="checkbox" onclick="auth()" name="resourceAuthRequired" value="ON" disabled> <fmt:message key="signUp.provideAuth" />
+			<hr>
+			<div class="form-group">
+				<div class="col-xs-3">
+<!-- 			     <input type="checkbox" onclick="var input = document.getElementById('id10');
+        				if(this.checked){ input.disabled = false; input.focus();}else{input.disabled=true;}" /> -->
+        				 <label for="id10"><fmt:message key="signUp.resourceUsername" /></label>
+       			 </br>				
+					 <input type="text" class="form-control" id="id10" placeholder="Username" name="basicAuthUsername" disabled>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-xs-3">
+					<label for="id11"><fmt:message key="signUp.resourcePassword" /></label> <input type="text"
+						class="form-control" id="id11"
+						placeholder="Password"
+						name="basicAuthPassword" disabled>
+				</div>
+			</div>
+
+			<hr>
 			<button class="btn btn-lg btn-primary" type="submit"><span class="glyphicon glyphicon-edit"></span> <fmt:message key="signUp.buttonText" /></button>
+			
 		</form>
+		</br>
+		</br>
     </div><!-- /.container -->
 
 

@@ -21,7 +21,6 @@ public class Config {
 	public static final String BUNDLE_BASENAME = "com.example.i18n.text";
 
 	public static final String UPLOAD_FOLDER = cfg.getWithEnv("uploadPath");
-	//public static final String WEB_CONTENT_FOLDER = cfg.getWithEnv("WebContentPath");
 	public static final String LOGGER_CONFIG_PATH = cfg.getWithEnv("logginConfigPath");
 	
 	

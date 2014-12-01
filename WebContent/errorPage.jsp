@@ -10,7 +10,7 @@
     <meta name="author" content="Anton">
     <link rel="icon" href="favicon.ico">
 
-    <title>Error</title>
+    <title>I-Butler.Net - Error</title>
 
     <!-- Bootstrap core CSS -->
     <link href="dist/css/bootstrap.min.css" rel="stylesheet">
