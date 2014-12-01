@@ -1,0 +1,157 @@
+/* Responsive CSS Styles Table of Contents */
+
+@media only screen and (min-width: 1000px) and (max-width: 1169px){
+	.container {
+		width: 1000px;
+		margin: auto;
+	}
+	#оverview{
+		display: none;
+	}
+}
+
+
+@media only screen and (min-width: 768px) and (max-width: 999px){
+	.container {
+		width: 748px;
+		margin: auto;
+	}
+	.nav-collapse i{
+		display: none;
+	}
+	.footer .logo-wrap{
+		float: none;
+	}
+	.company-info{
+		width: 100%;
+		margin-left: 0;
+	}
+	#оverview{
+		display: none;
+	}
+	.nav-collapse a {
+		padding: 5px 5px !important;
+		line-height: 19px;
+		font-size: 12px;
+	}
+	.languages{
+		position: absolute;
+		top: 0;
+		right: 52px;
+	}
+}
+
+
+@media only screen and (min-width: 480px) and (max-width: 767px){
+	.container {
+		width: 460px;
+		margin: auto;
+	}
+	.sing-up-form .row{
+		float: none;
+		width: 100%;
+		padding: 0 !important;
+	}
+	.nav-collapse a {
+		padding: 5px 5px !important;
+		line-height: 19px;
+		font-size: 12px;
+	}
+	.container_full {
+		height: 70px;
+	}
+	.nav-collapse i{
+		display: none;
+	}
+	.footer .logo-wrap{
+		float: none;
+	}
+	.company-info{
+		width: 100%;
+		margin-left: 0;
+	}
+	.footer .logo-wrap{
+		float: none;
+		text-align: center;
+	}
+	.company-info li{
+		width: 100%;
+		float: none;
+		margin-bottom: 15px;
+		display: block;
+		text-align: center;
+	}
+	.scrollup{
+		display: none !important;
+	}
+	#оverview{
+		display: none;
+	}
+	.languages{
+		position: absolute;
+		top: 0;
+		right: 52px;
+	}
+}
+
+@media only screen and (max-width: 479px){
+	.container {
+		width: 100%;
+		margin: auto;
+		box-sizing: border-box;
+		-moz-box-sizing: border-box;
+	}
+	.sing-up-form .row{
+		float: none;
+		width: 100%;
+		padding: 0 !important;
+	}
+	.logo img {
+		height: 50px;
+	}
+	.container_full {
+		height: 70px;
+	}
+	.nav-collapse i{
+		display: none;
+	}
+	.footer .logo-wrap{
+		float: none;
+		text-align: center;
+	}
+	.company-info{
+		width: 100%;
+		margin-left: 0;
+	}
+	.company-info li{
+		width: 100%;
+		float: none;
+		margin-bottom: 15px;
+		display: block;
+		text-align: center;
+	}
+	.scrollup{
+		display: none !important;
+	}
+	#оverview{
+		display: none;
+	}
+	 .copyrights li a {
+	 	width: 40px;
+	 	height: 40px;
+	 	line-height: 40px;
+	 }
+	.copyrights ul {
+  		width: 276px;
+  	}
+  	.nav-collapse a {
+		padding: 5px 5px !important;
+		line-height: 19px;
+		font-size: 12px;
+	}
+	.languages{
+		position: absolute;
+		top: 0;
+		right: 52px;
+	}
+}
